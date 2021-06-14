@@ -26,10 +26,12 @@ import freenet.support.io.Closer;
  *  
  *  NOTICE: The member variable {@link #version} must be manually incremented before every release
  *  to the auto-update mechanism of fred!  
- *  The member variable {@link #marketingVersion} may be, but need not be, manually incremented. */
+ *  The member variable {@link #marketingVersion} may be, but need not be, manually incremented.
+ *  
+ *  TODO: Code quality: Prefix member variable names with "m" to match the Freetalk code style. */
 public final class Version {
 
-	/** This is replaced by the Ant/Gradle build scripts during compilation.  
+	/** This is replaced by the Ant build script during compilation.  
 	 *  It thus must be private and only accessible through a getter function to ensure
 	 *  its pre-replacement default value does not get inlined into the code of other classes!
 	 *  
