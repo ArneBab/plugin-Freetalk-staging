@@ -77,20 +77,19 @@ script:
   - rm -f ./gradlew
   - |
     if [ "$(tr -cd '[:digit:]' <<< "$TRAVIS_JDK_VERSION")" -lt 13 ] ; then # Java versions < 13
-      # Latest Gradle version as of 2021-01-22.
-      gradle wrapper --gradle-version 6.8.1
+      # Latest Gradle version as of 2021-06-14.
+      gradle wrapper --gradle-version 7.1
     else
-      # As of 2020-08-06 "gradle wrapper" fails on Java 13 and above so use the one of fred instead
-      # as a workaround.
+      # As of 2020-08-06, Travis' gradle binary fails to run the "wrapper" command on Java 13 and
+      # above so we instead use the wrapper of fred to download a new version of itself.
       # TODO: Code quality: Remove this workaround once the issue is fixed.
-      ln -s "$TRAVIS_BUILD_DIR"/../fred/gradlew ./gradlew
+      "$TRAVIS_BUILD_DIR"/../fred/gradlew wrapper --gradle-version 7.1
     fi
   - ./gradlew --version
   # To test the Ant and Gradle builders against each other uncomment the following.
   # (The scripts will use the ./gradlew we've installed so we can ensure the latest Gradle works.)
-  # FIXME: Enabled to test the currently in development Gradle changes. Disable afterwards.
-  - tools/compare-gradle-jars-with-ant-jars
-  - tools/compare-gradle-tests-with-ant-tests
+  ## - tools/compare-gradle-jars-with-ant-jars
+  ## - tools/compare-gradle-tests-with-ant-tests
   # Show stdout/stderr so random seeds of failed tests can be obtained by developers to
   # reproduce failed test runs. Also prevents the 10 minute build timeout.
   - FREETALK__SHOW_GRADLE_TEST_OUTPUT=1 ./gradlew clean test jar
@@ -105,6 +104,7 @@ jdk:
   - openjdk13
   - openjdk14
   - openjdk15
+  - openjdk16
   # oraclejdk7: Not supported anymore: https://github.com/travis-ci/travis-ci/issues/7884#issuecomment-308451879
   # oraclejdk8: Not available anymore.
   # oraclejdk9: No more updates by Oracle: https://www.oracle.com/technetwork/java/java-se-support-roadmap.html
@@ -114,6 +114,7 @@ jdk:
   - oraclejdk13
   - oraclejdk14
   - oraclejdk15
+  - oraclejdk16
 
 # FIXME: Adapt to Freetalk and enable
 # deploy:
